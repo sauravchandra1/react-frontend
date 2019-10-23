@@ -21,9 +21,18 @@ export default class App extends Component {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({
         loggedInStatus: !!user,
-        user: user
+        user: {
+          name: firebase.auth().currentUser.displayName,
+          email: firebase.auth().currentUser.email,
+          imageURL: firebase.auth().currentUser.photoURL,
+          uid: firebase.auth().currentUser.uid,
+        }
       })
-      console.log('user->', user)
+      // console.log('user===>', this.state.user);
+      // firebase.auth().currentUser.getIdToken()
+      //   .then((response) => {
+      //     console.log(response);
+      //   })
     })
   }
   uiConfig = {
@@ -38,13 +47,13 @@ export default class App extends Component {
   render() {
     return (
       <div className='App'>
-        <h1>{this.state.loggedInStatus}</h1>  
+        <h1>{this.state.loggedInStatus}</h1>
         {this.state.loggedInStatus ? (
           <span>
             <p>Signed In</p>
             <button onClick={() => firebase.auth().signOut()}>Sign out</button>
             <h4>Welcome {firebase.auth().currentUser.displayName}</h4>
-            <img src={firebase.auth().currentUser.photoURL}/>
+            <img src={firebase.auth().currentUser.photoURL} />
           </span>
         ) : (
             <StyledFirebaseAuth
