@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import firebase from 'firebase';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
-
+import axios from 'axios';
 
 firebase.initializeApp({
   apiKey: 'AIzaSyDlnmINxt_OEGu9YB2NXRL-nJSZgPcah4M',
@@ -28,12 +28,15 @@ export default class App extends Component {
           uid: firebase.auth().currentUser.uid,
         }
       })
-      // console.log('user===>', this.state.user);
-      // firebase.auth().currentUser.getIdToken()
-      //   .then((response) => {
-      //     console.log(response);
-      //   })
     })
+  }
+  componentDidUpdate() {
+    // axios.post('http://localhost:3001/create', this.state.user)
+    //   .then(response => {
+    //     console.log('auth response', response)
+    //   }).catch(error => {
+    //     console.log('auth error', error);
+    //   });
   }
   uiConfig = {
     signInFlow: 'popup',
