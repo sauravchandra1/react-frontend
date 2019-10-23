@@ -20,8 +20,10 @@ export default class App extends Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       this.setState({
-        loggedInStatus: !!user
+        loggedInStatus: !!user,
+        user: user
       })
+      console.log('user->', user)
     })
   }
   uiConfig = {
@@ -36,11 +38,13 @@ export default class App extends Component {
   render() {
     return (
       <div className='App'>
-        <h1>{this.state.loggedInStatus}</h1>
+        <h1>{this.state.loggedInStatus}</h1>  
         {this.state.loggedInStatus ? (
           <span>
             <p>Signed In</p>
             <button onClick={() => firebase.auth().signOut()}>Sign out</button>
+            <h4>Welcome {firebase.auth().currentUser.displayName}</h4>
+            <img src={firebase.auth().currentUser.photoURL}/>
           </span>
         ) : (
             <StyledFirebaseAuth
@@ -48,24 +52,6 @@ export default class App extends Component {
               firebaseAuth={firebase.auth()}
             />
           )}
-
-        {/* <BrowserRouter>
-          <Switch>
-            <Route exact
-              path={'/'}
-              render={props => (
-                <TwitterAuth {...props}
-                />
-              )} />
-            <Route
-              exact
-              path={'/dashboard'}
-              render={props => (
-                <Dashboard {...props}
-                />
-              )} />
-          </Switch>
-        </BrowserRouter> */}
       </div>
     );
   }
