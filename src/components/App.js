@@ -16,18 +16,29 @@ export default class App extends Component {
       loggedInStatus: false,
       user: {}
     }
+    this.handleSignOut = this.handleSignOut.bind(this);
   }
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({
-        loggedInStatus: !!user,
-        user: {
-          name: firebase.auth().currentUser.displayName,
-          email: firebase.auth().currentUser.email,
-          imageURL: firebase.auth().currentUser.photoURL,
-          uid: firebase.auth().currentUser.uid,
-        }
-      })
+    firebase.auth().onAuthStateChanged(userr => {
+      if (userr !== null) {
+        this.setState({
+          loggedInStatus: !!userr,
+          user: {
+            name: firebase.auth().currentUser.displayName,
+            email: firebase.auth().currentUser.email,
+            imageURL: firebase.auth().currentUser.photoURL,
+            uid: firebase.auth().currentUser.uid,
+          }
+        })
+      }
+      console.log('userr--------------->', userr)
+    })
+  }
+  handleSignOut() {
+    firebase.auth().signOut();
+    this.setState({
+      loggedInStatus: false,
+      user: {},
     })
   }
   componentDidUpdate() {
@@ -54,7 +65,7 @@ export default class App extends Component {
         {this.state.loggedInStatus ? (
           <span>
             <p>Signed In</p>
-            <button onClick={() => firebase.auth().signOut()}>Sign out</button>
+            <button onClick={() => this.handleSignOut()}>Sign out</button>
             <h4>Welcome {firebase.auth().currentUser.displayName}</h4>
             <img src={firebase.auth().currentUser.photoURL} />
           </span>
