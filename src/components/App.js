@@ -30,8 +30,15 @@ export default class App extends Component {
             uid: firebase.auth().currentUser.uid,
           }
         })
+        // firebase.auth().currentUser.getIdToken()
+        //   .then((token) => {
+        //     console.log('token', token);
+        //   }).catch((error) => {
+        //     console.log('token error', error);
+        //   })
+        // console.log('uid', firebase.auth().currentUser.uid)
       }
-      console.log('userr--------------->', userr)
+      // console.log('userr--------------->', userr)
     })
   }
   handleSignOut() {
@@ -42,12 +49,12 @@ export default class App extends Component {
     })
   }
   componentDidUpdate() {
-    // axios.post('http://localhost:3001/create', this.state.user)
-    //   .then(response => {
-    //     console.log('auth response', response)
-    //   }).catch(error => {
-    //     console.log('auth error', error);
-    //   });
+    axios.post('http://localhost:3001/create', this.state.user)
+      .then(response => {
+        console.log('auth response', response)
+      }).catch(error => {
+        console.log('auth error', error);
+      });
   }
   uiConfig = {
     signInFlow: 'popup',
